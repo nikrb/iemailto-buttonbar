@@ -49,7 +49,6 @@ class ViewController: UIViewController, CNContactPickerDelegate, CNContactViewCo
         
         let button   = UIButton( type: .System) as UIButton
         button.tag = contact.button_tag!
-        // button.frame = getNextButtonRect()
         button.backgroundColor = UIColor.whiteColor()
         button.setTitle( "\(full_name)❌", forState: UIControlState.Normal)
         button.addTarget(self, action: "RemoveEmail:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -57,19 +56,12 @@ class ViewController: UIViewController, CNContactPickerDelegate, CNContactViewCo
         button.translatesAutoresizingMaskIntoConstraints = false
         
         emailView.addSubview( button)
-        
-        var x = NSLayoutConstraint(item: button, attribute: .Leading, relatedBy: .Equal, toItem: emailView, attribute: .Leading, multiplier: 1, constant: 0)
-        if emailView.subviews.count > 1 {
-            x = NSLayoutConstraint(item: button, attribute: .Leading, relatedBy: .Equal, toItem: emailView.subviews[emailView.subviews.count-2], attribute: .Trailing, multiplier: 1, constant: 0)
-        }
-        let y = NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal, toItem: emailView, attribute: .Top, multiplier: 1, constant: 0)
-        emailView.addConstraints([x,y])
+        relayoutEmailButtons()
         
         email_list.append( contact)
     }
-        
+    
     func RemoveEmail( sender: UIButton!){
-        print( "remove email")
         var found_ndx = -1
         for i in 0..<email_list.count {
             if email_list[i].button_tag == sender.tag {
@@ -83,7 +75,6 @@ class ViewController: UIViewController, CNContactPickerDelegate, CNContactViewCo
         emailView.removeConstraints( sender.constraints)
         sender.removeFromSuperview()
         relayoutEmailButtons()
-        print( "email list:", email_list)
     }
     
     func relayoutEmailButtons( ) {
@@ -95,7 +86,7 @@ class ViewController: UIViewController, CNContactPickerDelegate, CNContactViewCo
             let button = emailView.subviews[i] as! UIButton
             
             var x:NSLayoutConstraint?
-            if i>0 { // emailView.subviews.count > 1 {
+            if i>0 {
                 x = NSLayoutConstraint(item: button, attribute: .Leading, relatedBy: .Equal, toItem: emailView.subviews[i-1], attribute: .Trailing, multiplier: 1, constant: 0)
             } else {
                 x = NSLayoutConstraint(item: button, attribute: .Leading, relatedBy: .Equal, toItem: emailView, attribute: .Leading, multiplier: 1, constant: 0)
@@ -103,7 +94,6 @@ class ViewController: UIViewController, CNContactPickerDelegate, CNContactViewCo
             let y = NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal, toItem: emailView, attribute: .Top, multiplier: 1, constant: 0)
             
             emailView.addConstraints([x!,y])
-            
         }
         emailView.layoutIfNeeded()
     }
