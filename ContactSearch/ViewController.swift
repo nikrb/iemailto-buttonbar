@@ -45,14 +45,54 @@ class ViewController: UIViewController, CNContactPickerDelegate, CNContactViewCo
         
         let button   = UIButton( type: .System) as UIButton
         button.tag = contact.button_tag!
-        button.frame = getNextButtonRect()
+        // button.frame = getNextButtonRect()
         // button.backgroundColor = UIColor.greenColor()
         button.setTitle( "\(contact.name!)❌", forState: UIControlState.Normal)
         button.addTarget(self, action: "RemoveEmail:", forControlEvents: UIControlEvents.TouchUpInside)
-        emailView!.addSubview( button)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        emailView.addSubview( button)
+        
+        NSLayoutConstraint.activateConstraints([
+            button.leadingAnchor.constraintEqualToAnchor(emailView.leadingAnchor),
+            button.topAnchor.constraintEqualToAnchor(emailView.topAnchor),
+            button.widthAnchor.constraintEqualToConstant(100),
+            button.heightAnchor.constraintEqualToConstant( emailView.bounds.size.height)
+            /*
+            button.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 30),
+            button.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 390),
+            button.widthAnchor.constraintEqualToConstant( 75),
+            button.heightAnchor.constraintEqualToConstant(75)
+*/
+            ])
+        // button.addConstraints(cons)
+        /*
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        let previous_button :NSLayoutAnchor?
+        if emailView.subviews.count > 0 {
+            previous_button =
+        }
+        NSLayoutConstraint.activateConstraints([
+            button.leadingAnchor.constraintEqualToAnchor(previous_button),
+            
+            button.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 30),
+            button.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 390),
+            button.widthAnchor.constraintEqualToConstant( 75),
+            button.heightAnchor.constraintEqualToConstant(75)
+            ])
+        */
+        
+//        let x = NSLayoutConstraint(item: button, attribute: .Leading, relatedBy: .Equal, toItem: emailView, attribute: .LeadingMargin, multiplier: 1, constant: 0)
+//        let y = NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal, toItem: emailView, attribute: .TopMargin, multiplier: 1, constant: 0)
+//        button.addConstraints([x,y])
         
         email_list.append( contact)
     }
+    
+    
+    
     func RemoveEmail( sender: UIButton!){
         print( "remove email")
         var found_ndx = -1
