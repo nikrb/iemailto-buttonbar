@@ -31,24 +31,24 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="left" translatesAutoresizingMaskIntoConstraints="NO" id="XRq-tL-Rw7">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dlo-QZ-0hs">
                                 <rect key="frame" x="66" y="28" width="514" height="30"/>
                                 <color key="backgroundColor" red="0.9590559555" green="0.9590559555" blue="0.9590559555" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="XRq-tL-Rw7" firstAttribute="height" secondItem="zmW-Uf-qrf" secondAttribute="height" id="9aM-3w-sua"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="XRq-tL-Rw7" secondAttribute="trailing" id="CMl-5e-VgK"/>
-                            <constraint firstItem="XRq-tL-Rw7" firstAttribute="leading" secondItem="zmW-Uf-qrf" secondAttribute="trailing" constant="8" id="K4j-Pp-1h4"/>
-                            <constraint firstItem="zmW-Uf-qrf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="8" id="gmf-DT-2fF"/>
-                            <constraint firstItem="XRq-tL-Rw7" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="qtm-q5-o3d"/>
-                            <constraint firstItem="zmW-Uf-qrf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="vOL-2Q-hYP"/>
+                            <constraint firstItem="Dlo-QZ-0hs" firstAttribute="leading" secondItem="zmW-Uf-qrf" secondAttribute="trailing" constant="8" id="7Dq-BC-YQK"/>
+                            <constraint firstItem="Dlo-QZ-0hs" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="Ts5-ML-3Nz"/>
+                            <constraint firstItem="Dlo-QZ-0hs" firstAttribute="height" secondItem="zmW-Uf-qrf" secondAttribute="height" id="pZw-bl-dWl"/>
+                            <constraint firstItem="zmW-Uf-qrf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="rxu-yy-5fr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Dlo-QZ-0hs" secondAttribute="trailing" id="v1G-Bu-9cd"/>
+                            <constraint firstItem="zmW-Uf-qrf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="8" id="yPi-RB-ZKL"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="emailScrollView" destination="Dlo-QZ-0hs" id="R8W-QT-9SC"/>
                         <outlet property="emailToButton" destination="zmW-Uf-qrf" id="KuV-gH-zl3"/>
-                        <outlet property="emailView" destination="XRq-tL-Rw7" id="GYB-Yn-kYN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

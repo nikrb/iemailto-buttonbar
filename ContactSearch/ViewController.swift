@@ -15,7 +15,7 @@ class ViewController: UIViewController, CNContactPickerDelegate, CNContactViewCo
 
     var email_list = [contactEmail]()
     
-    @IBOutlet weak var emailView: UIView!
+    @IBOutlet weak var emailScrollView: UIScrollView!
     @IBOutlet weak var emailToButton: UIButton!
     
     struct contactEmail {
@@ -53,9 +53,7 @@ class ViewController: UIViewController, CNContactPickerDelegate, CNContactViewCo
         button.setTitle( "\(full_name)❌", forState: UIControlState.Normal)
         button.addTarget(self, action: "RemoveEmail:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        emailView.addSubview( button)
+        emailScrollView.addSubview( button)
         relayoutEmailButtons()
         
         email_list.append( contact)
@@ -72,30 +70,40 @@ class ViewController: UIViewController, CNContactPickerDelegate, CNContactViewCo
         if found_ndx >= 0 {
             email_list.removeAtIndex(found_ndx)
         }
-        emailView.removeConstraints( sender.constraints)
+        emailScrollView.removeConstraints( sender.constraints)
         sender.removeFromSuperview()
         relayoutEmailButtons()
+        recalculateEmailScrollViewContentSize()
     }
     
     func relayoutEmailButtons( ) {
-        // sender isn't in view anymore
-        for c in emailView.constraints {
-            c.active = false
-        }
-        for i in 0..<emailView.subviews.count {
-            let button = emailView.subviews[i] as! UIButton
-            
-            var x:NSLayoutConstraint?
-            if i>0 {
-                x = NSLayoutConstraint(item: button, attribute: .Leading, relatedBy: .Equal, toItem: emailView.subviews[i-1], attribute: .Trailing, multiplier: 1, constant: 0)
-            } else {
-                x = NSLayoutConstraint(item: button, attribute: .Leading, relatedBy: .Equal, toItem: emailView, attribute: .Leading, multiplier: 1, constant: 0)
+        // scroll view has subviews we don't want
+        var next_button_x = 0
+        for i in 0..<emailScrollView.subviews.count {
+            if let button = emailScrollView.subviews[i] as? UIButton {
+                let bw = Int( (button.titleLabel?.intrinsicContentSize().width)!)
+                button.frame = CGRect(x: next_button_x, y: 0, width: bw, height: Int( emailToButton.bounds.width))
+                next_button_x += bw
             }
-            let y = NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal, toItem: emailView, attribute: .Top, multiplier: 1, constant: 0)
-            
-            emailView.addConstraints([x!,y])
         }
-        emailView.layoutIfNeeded()
+    }
+    
+    func recalculateEmailScrollViewContentSize(){
+        var scroll_width = emailScrollView.bounds.width
+        var new_scroll_width:CGFloat = 0
+        for v in emailScrollView.subviews {
+            if let b = v as? UIButton {
+                new_scroll_width += b.bounds.width
+            }
+        }
+        if new_scroll_width > scroll_width {
+            scroll_width = new_scroll_width
+        }
+        emailScrollView.contentSize = CGSize(width: scroll_width, height: emailScrollView.bounds.height)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        recalculateEmailScrollViewContentSize()
     }
     
     override func viewDidLoad() {
