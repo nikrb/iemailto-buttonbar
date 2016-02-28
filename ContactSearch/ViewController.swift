@@ -119,12 +119,13 @@ class ViewController: UIViewController, CNContactPickerDelegate, CNContactViewCo
         if found_ndx >= 0 {
             email_list.removeAtIndex(found_ndx)
         }
+        emailView.removeConstraints( sender.constraints)
         sender.removeFromSuperview()
         relayoutEmailButtons()
         print( "email list:", email_list)
     }
     
-    func relayoutEmailButtons() {
+    func relayoutEmailButtons( ) {
         /*
         for(NSLayoutConstraint *constraint in self.view.constraints)
         {
@@ -136,19 +137,22 @@ class ViewController: UIViewController, CNContactPickerDelegate, CNContactViewCo
         }
 */
         
+        // sender isn't in view anymore
         for c in emailView.constraints {
             c.active = false
         }
         for i in 0..<emailView.subviews.count {
             let button = emailView.subviews[i] as! UIButton
             
-            var x = NSLayoutConstraint(item: button, attribute: .Leading, relatedBy: .Equal, toItem: emailView, attribute: .Leading, multiplier: 1, constant: 0)
-            if emailView.subviews.count > 1 {
-                x = NSLayoutConstraint(item: button, attribute: .Leading, relatedBy: .Equal, toItem: emailView.subviews[emailView.subviews.count-2], attribute: .Trailing, multiplier: 1, constant: 0)
+            var x:NSLayoutConstraint?
+            if i>0 { // emailView.subviews.count > 1 {
+                x = NSLayoutConstraint(item: button, attribute: .Leading, relatedBy: .Equal, toItem: emailView.subviews[i-1], attribute: .Trailing, multiplier: 1, constant: 0)
+            } else {
+                x = NSLayoutConstraint(item: button, attribute: .Leading, relatedBy: .Equal, toItem: emailView, attribute: .Leading, multiplier: 1, constant: 0)
             }
             let y = NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal, toItem: emailView, attribute: .Top, multiplier: 1, constant: 0)
             
-            emailView.addConstraints([x,y])
+            emailView.addConstraints([x!,y])
             
         }
         emailView.layoutIfNeeded()
