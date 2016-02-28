@@ -81,7 +81,7 @@ class ViewController: UIViewController, CNContactPickerDelegate, CNContactViewCo
         var next_button_x = 0
         for i in 0..<emailScrollView.subviews.count {
             if let button = emailScrollView.subviews[i] as? UIButton {
-                let bw = Int( (button.titleLabel?.intrinsicContentSize().width)!)
+                let bw = Int( button.intrinsicContentSize().width)
                 button.frame = CGRect(x: next_button_x, y: 0, width: bw, height: Int( emailToButton.bounds.height))
                 next_button_x += bw
             }
